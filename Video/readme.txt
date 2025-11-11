@@ -1,0 +1,1 @@
+Hacer un video grabando la pantalla del completo funcionamiento de la aplicación.
