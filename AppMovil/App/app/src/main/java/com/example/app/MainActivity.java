@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
                             botonesArray.get(contador).setBackgroundColor(Color.parseColor("#EF4D4D"));
                         }
 
+                        else{
+                            botonesArray.get(contador).setBackgroundColor(Color.parseColor("#83E291"));
+                        }
+
                         contador++;
                     }
 
