@@ -23,6 +23,7 @@
         </activity>
 
         <activity android:name=".CartaActivity" />
+        <activity android:name=".CuentaActivity" />
 
     </application>
 

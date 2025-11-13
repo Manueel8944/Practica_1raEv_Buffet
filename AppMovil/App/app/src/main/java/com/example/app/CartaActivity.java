@@ -29,6 +29,7 @@ import retrofit2.Response;
 
 public class CartaActivity extends AppCompatActivity {
 
+    Button botonRefrescar;
     Button botonPagar, botonPedir;
     Button botonMas1, botonMas2,botonMas3,botonMas4,botonMas5,botonMas6;
     Button botonMenos1, botonMenos2,botonMenos3,botonMenos4,botonMenos5,botonMenos6;
@@ -49,6 +50,8 @@ public class CartaActivity extends AppCompatActivity {
         });
 
         idMesa = getIntent().getIntExtra("idMesa", -1);
+
+        botonRefrescar = (Button) findViewById(R.id.botonRefrescar);
 
         botonPagar = (Button) findViewById(R.id.botonPagar);
         botonPedir = (Button) findViewById(R.id.botonPedir);
@@ -91,6 +94,9 @@ public class CartaActivity extends AppCompatActivity {
         botonMenos6.setOnClickListener(v -> menosComida(botonMenos6, contadorComida6));
 
         botonPedir.setOnClickListener(v -> verMesaElegida());
+        botonPagar.setOnClickListener(v -> irACuenta());
+
+        botonRefrescar.setOnClickListener(v -> cambiarColorPedir());
 
     }
 
@@ -231,6 +237,10 @@ public class CartaActivity extends AppCompatActivity {
                             botonPedir.setBackgroundColor(Color.parseColor("#B5E0FF"));
                         }
 
+                        else {
+                            botonPedir.setBackgroundColor(Color.parseColor("#42ABF6"));
+                        }
+
                 } else {
                     Toast.makeText(CartaActivity.this, "Error al encontrar la mesa", Toast.LENGTH_SHORT).show();
                 }
@@ -241,5 +251,39 @@ public class CartaActivity extends AppCompatActivity {
                 Toast.makeText(CartaActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void irACuenta(){
+
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        Call<List<Mesa>> call = apiService.getMesa();
+
+        call.enqueue(new Callback<List<Mesa>>() {
+            @Override
+            public void onResponse(Call<List<Mesa>> call, Response<List<Mesa>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Mesa> mesas = response.body();
+                    Mesa mesaElegida = mesas.get(idMesa-1);
+                    if (!mesaElegida.isEstadoPedido()){
+                        Intent intent = new Intent(CartaActivity.this, CuentaActivity.class);
+                        intent.putExtra("idMesa", idMesa);
+                        startActivity(intent);
+                    }
+
+                    else {
+                        Toast.makeText(CartaActivity.this, "Aun hay un pedido sin servir", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(CartaActivity.this, "Error al encontrar la mesa", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Mesa>> call, Throwable t) {
+                Toast.makeText(CartaActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }

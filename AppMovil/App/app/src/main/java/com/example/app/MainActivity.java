@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button botonM1, botonM2, botonM3, botonM4, botonM5;
 
+    Button botonRefrescar;
+
     ArrayList<Button> botonesArray = new ArrayList<>();
     
     @Override
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        botonRefrescar = (Button) findViewById(R.id.botonRefrescar);
 
         botonM1 = (Button) findViewById(R.id.botonM1);
         botonM2 = (Button) findViewById(R.id.botonM2);
@@ -61,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         botonM4.setOnClickListener(v -> verMesaEscogida(3,botonM4));
         botonM5.setOnClickListener(v -> verMesaEscogida(4,botonM5));
 
-
+        botonRefrescar.setOnClickListener(v -> colorMesas());
     }
 
     public void verMesaEscogida(int numMesa,Button botonCambiar) {
