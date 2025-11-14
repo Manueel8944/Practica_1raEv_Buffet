@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, CartaActivity.class);
                         intent.putExtra("idMesa", idMesa);
                         startActivity(intent);
+                        finish(); // importante para que se refresquen las paginas al volver a entrar
 
                     } else {
                         Toast.makeText(MainActivity.this, "Error al actualizar mesa", Toast.LENGTH_SHORT).show();

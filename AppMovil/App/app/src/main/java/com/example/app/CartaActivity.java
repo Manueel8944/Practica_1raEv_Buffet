@@ -161,6 +161,7 @@ public class CartaActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(CartaActivity.this, "Error al pedir", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
@@ -184,6 +185,7 @@ public class CartaActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(CartaActivity.this, "Error al encontrar la mesa", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
@@ -209,6 +211,7 @@ public class CartaActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(CartaActivity.this, "Error al actualizar mesa", Toast.LENGTH_SHORT).show();
                     }
+
                 }
 
                 @Override
@@ -244,6 +247,7 @@ public class CartaActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(CartaActivity.this, "Error al encontrar la mesa", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
@@ -268,6 +272,7 @@ public class CartaActivity extends AppCompatActivity {
                         Intent intent = new Intent(CartaActivity.this, CuentaActivity.class);
                         intent.putExtra("idMesa", idMesa);
                         startActivity(intent);
+                        finish(); // importante para que se refresquen las paginas al volver a entrar
                     }
 
                     else {
@@ -277,6 +282,7 @@ public class CartaActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(CartaActivity.this, "Error al encontrar la mesa", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override

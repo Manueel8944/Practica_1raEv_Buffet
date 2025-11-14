@@ -20,9 +20,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayoutPedidos"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="282dp"
+        android:layout_height="419dp"
         android:layout_marginTop="1dp"
+        android:fontFamily="serif-monospace"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +53,18 @@
         android:layout_marginEnd="44dp"
         android:fontFamily="serif-monospace"
         android:text="0"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textoTotal2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:fontFamily="serif-monospace"
+        android:text="€"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
