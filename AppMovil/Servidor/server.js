@@ -35,27 +35,27 @@ const pedidosSchema = new mongoose.Schema({
   ],
 });
 
-const Comida = mongoose.model("Comida", comidaSchema, "comidas");
+const Comida = mongoose.model("Comida", comidaSchema, "comida");
 const Mesa = mongoose.model("Mesa", mesasSchema, "mesas");
 const Pedido = mongoose.model("Pedido", pedidosSchema, "pedidos");
 
-app.get('/comidas', async (req, res) => {
+app.get('/comida', async (req, res) => {
   const comidas = await Comida.find();
   res.json(comidas);
 });
 
-app.post('/comidas', async (req, res) => {
+app.post('/comida', async (req, res) => {
   const nueva = new Comida(req.body);
   await nueva.save();
   res.json(nueva);
 });
 
-app.put('/comidas/:id', async (req, res) => {
+app.put('/comida/:id', async (req, res) => {
   const actualizada = await Comida.findOneAndUpdate({ id: Number(req.params.id) }, req.body, { new: true });
   res.json(actualizada);
 });
 
-app.delete('/comidas/:id', async (req, res) => {
+app.delete('/comida/:id', async (req, res) => {
   await Comida.findOneAndDelete({ id: Number(req.params.id) });
   res.json({ mensaje: 'Comida eliminada' });
 });

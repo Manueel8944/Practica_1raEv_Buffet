@@ -49,7 +49,7 @@ public class CartaActivity extends AppCompatActivity {
             return insets;
         });
 
-        idMesa = getIntent().getIntExtra("idMesa", -1);
+        idMesa = getIntent().getIntExtra("idMesa", -1); // Como hemos visto en la vista principal mandamos con el intent el idMesa para saberlo en esta vista, y lo mismo voy a hacer para las demas
 
         botonRefrescar = (Button) findViewById(R.id.botonRefrescar);
 
@@ -96,17 +96,17 @@ public class CartaActivity extends AppCompatActivity {
         botonPedir.setOnClickListener(v -> verMesaElegida());
         botonPagar.setOnClickListener(v -> irACuenta());
 
-        botonRefrescar.setOnClickListener(v -> cambiarColorPedir());
+        botonRefrescar.setOnClickListener(v -> cambiarColorPedir()); // Para refrescar solamente hay que llamar a la funcion que cambia los colores de pedir
 
     }
 
-    public void masComida(Button botonMas, TextView contadorComida){
+    public void masComida(Button botonMas, TextView contadorComida){ // Esto es para el contador de cada comida, esta funcion suma 1 al valor que tenga
         int  textoInicial = Integer.parseInt(contadorComida.getText().toString());
         textoInicial++;
         contadorComida.setText(String.valueOf(textoInicial));
     }
 
-    public void menosComida(Button boton, TextView contadorComida){
+    public void menosComida(Button boton, TextView contadorComida){ // Esto es para el contador de cada comida, esta funcion resta 1 al valor que tenga y no deja que sea menos de 0
         int  textoInicial = Integer.parseInt(contadorComida.getText().toString());
 
         if (textoInicial>0){
@@ -116,7 +116,7 @@ public class CartaActivity extends AppCompatActivity {
     }
 
     public void pedirComida(){
-        int  cantidadComida1 = Integer.parseInt(contadorComida1.getText().toString());
+        int  cantidadComida1 = Integer.parseInt(contadorComida1.getText().toString()); // Recojemos la cantidad de cada comida que hayamos elejido
         int  cantidadComida2 = Integer.parseInt(contadorComida2.getText().toString());
         int  cantidadComida3 = Integer.parseInt(contadorComida3.getText().toString());
         int  cantidadComida4 = Integer.parseInt(contadorComida4.getText().toString());
@@ -130,7 +130,7 @@ public class CartaActivity extends AppCompatActivity {
         ComidaPedido comidaPedido5 = new ComidaPedido(5, cantidadComida5);
         ComidaPedido comidaPedido6 = new ComidaPedido(6, cantidadComida6);
 
-        ArrayList<ComidaPedido> comidaPedidosArray = new ArrayList<>();
+        ArrayList<ComidaPedido> comidaPedidosArray = new ArrayList<>(); // Creamos un array de las comidas elegidas con su cantidad y las añadimos para crear luego el objeto pedido.
 
         comidaPedidosArray.add(comidaPedido1);
         comidaPedidosArray.add(comidaPedido2);
@@ -139,18 +139,18 @@ public class CartaActivity extends AppCompatActivity {
         comidaPedidosArray.add(comidaPedido5);
         comidaPedidosArray.add(comidaPedido6);
 
-        comidaPedidosArray.removeIf(cp -> cp.getCantidad() == 0);
+        comidaPedidosArray.removeIf(cp -> cp.getCantidad() == 0); // Se borra del array las comidas que tengan cantidad 0
 
-        Pedido pedido = new Pedido(idMesa,comidaPedidosArray);
+        Pedido pedido = new Pedido(idMesa,comidaPedidosArray); // Creamos el objeto con el array de las comidas
 
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class); // Con esto registramos en la base de datos el nuevo pedido de la mesa correspondiente
         Call<Pedido> call = apiService.createPedido(pedido);
 
         call.enqueue(new Callback<Pedido>() {
             @Override
             public void onResponse(Call<Pedido> call, Response<Pedido> response) {
                 if(response.isSuccessful()) {
-                    contadorComida1.setText("0");
+                    contadorComida1.setText("0"); // Ponemos los valores de los contadores en 0
                     contadorComida2.setText("0");
                     contadorComida3.setText("0");
                     contadorComida4.setText("0");
@@ -171,7 +171,7 @@ public class CartaActivity extends AppCompatActivity {
         });
     }
     public void verMesaElegida(){
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class); // Usamos esta funcion para saber todos los datos de la mesa usada y lo pasamos como parametro a otra funcion
         Call<List<Mesa>> call = apiService.getMesa();
 
         call.enqueue(new Callback<List<Mesa>>() {
@@ -196,17 +196,17 @@ public class CartaActivity extends AppCompatActivity {
     }
 
     public void cambiarValorPedido(Mesa mesaElegida){
-        if (!mesaElegida.isEstadoPedido()){
+        if (!mesaElegida.isEstadoPedido()){ // Vemos si e l pedido es false osea que no hay ninguno sin servir y lo ponemos en true si es asi y si no manda una alerta y no hace nada
             mesaElegida.setEstadoPedido(true);
             ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-            Call<Mesa> call = apiService.updateMesa(idMesa, mesaElegida);
+            Call<Mesa> call = apiService.updateMesa(idMesa, mesaElegida); // Se actualiza la mesa poniendole el estado del pedido en true (osea que haya un pedido sin servir)
 
             call.enqueue(new Callback<Mesa>() {
                 @Override
                 public void onResponse(Call<Mesa> call, Response<Mesa> response) {
                     if (response.isSuccessful()) {
 
-                        botonPedir.setBackgroundColor(Color.parseColor("#B5E0FF"));
+                        botonPedir.setBackgroundColor(Color.parseColor("#B5E0FF")); // Cambiamos el fondo del boton pedir
                         pedirComida();
                     } else {
                         Toast.makeText(CartaActivity.this, "Error al actualizar mesa", Toast.LENGTH_SHORT).show();
@@ -236,7 +236,7 @@ public class CartaActivity extends AppCompatActivity {
                     List<Mesa> mesas = response.body();
                     Mesa mesaElegida = mesas.get(idMesa-1);
 
-                        if (mesaElegida.isEstadoMesa()){
+                        if (mesaElegida.isEstadoMesa()){ // Vemos la mesa que estamos usando y dependiendo del valor del estado mesa se cambia el color para que al actualizar se vea bien
                             botonPedir.setBackgroundColor(Color.parseColor("#B5E0FF"));
                         }
 

@@ -23,10 +23,10 @@ public interface ApiService {
     Call<Pedido> createPedido(@Body Pedido pedido);
 
     @PUT("pedidos/{id}")
-    Call<Pedido> updatePedido(@Path("id") int id, @Body Pedido pedido);
+    Call<Pedido> updatePedido(@Path("id") String id, @Body Pedido pedido);
 
     @DELETE("pedidos/{id}")
-    Call<Void> deletePedido(@Path("id") int id);
+    Call<Void> deletePedido(@Path("id") String id);
 
     @GET("comidas")
     Call<List<Comida>> getComidas();

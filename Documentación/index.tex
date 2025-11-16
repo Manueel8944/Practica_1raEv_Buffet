@@ -1,0 +1,81 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{graphicx}
+
+\title{Documentación Aplicación Buffet}
+\author{Manuel Añel García}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Tipo de datos}
+
+    \begin{itemize}
+        \item Este es uno de los principales fallos que tuve ya que en mongo los numeros son Number y yo apartir de eso le puse Number en el Backend y las Clases entonces en la practica al intentar igualar o diferenciar con un if un tipo Number con un Int no me dejaba.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.5\linewidth]{image.png}
+        \end{figure}
+        
+        \item Tambien para los tipo de datos de los TextView, si quiero ponerle un numero tengo que transformarlo a string.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.7\linewidth]{image1.png}
+            \label{fig:placeholder}
+        \end{figure}
+    \end{itemize}
+
+
+
+\section{Llamadas retrofit}
+    Esta es básicamente el principal error y más importante que he tenido, en comparacion con JavaFX en Android estudio usando retrofit no podía hacer dos llamadas HTTP en la misma función y para soulcionarlo está todo muy distribuido en funciones y se puede ver que casi todas las funciones tienen otras funciones dentro con parametros para usar los datos de una llamada HTTP en otra función.
+
+    
+
+\section{Pasar los proyectos a casa}
+    Estuve mucho tiempo pasando los proyectos de clase a casa ya que no se me ponía bien el JDK o no me leía el pom etc...
+
+\section{Hacer cambios en el UI JavaFX}
+Se me complicó para en las llamadas HTTP cambiar la UI de la aplicación ya que están en un hilo sitinto al principal, así que es necesario usar Platform.runLater(() -> {})
+
+\section{Contadores con Lambdas}
+Esto me llevo un tiempo porque Platform.runLater(() -> {}) es una lambda entonces no me dejaba hacer un contador fuera de un bucle y dentro despues de cada recorrido sumarlo si estaba la lambda dentro del bucle, me ponía que no era un parametro final, osea que iba cambiando y dentro del bucle tuve que relacionar el parametro contador a otro parametro que sea final.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{image2.png}
+\end{figure}
+
+\section{ID en fxml}
+Este fue un error que no me dejaba modificar los elementos en JavaFX ya que cuando hice la vista con el SceneBuilder puse el id en un parametro que había, y se ponia como "id=1" y eso no me salia como error pero luego al ejecutarlo con los cambios de colores del controller no me cambiaba nada y buscando me di cuenta que para que se refieran en el controller el id tiene que ser "fx:id=1"
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{image3.png}
+\end{figure}
+
+\section{Bibliografía}
+
+\begin{itemize}
+        \item https://programacionymas.com/blog/consumir-una-api-usando-retrofit
+        \item https://ljcl79.medium.com/construyendo-una-api-con-node-express-mongodb-f5c9ec86b908
+        \item https://es.stackoverflow.com/questions/578339/conexión-a-una-base-de-datos-con-mongodb-y-express-js
+        \item https://ironpdf.com/es/java/blog/java-help/okhttp-java/
+        \item https://medium.com/@nikita.o.blud/getting-started-with-okhttp3-for-java-http-request-examples-f4623188970e
+        \item https://es.stackoverflow.com/questions/106768/cómo-modificar-un-textview-en-android-a-través-de-un-botón
+        
+    \end{itemize}
+
+\end{document}
+

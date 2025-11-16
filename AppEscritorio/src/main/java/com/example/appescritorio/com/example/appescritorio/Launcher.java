@@ -1,5 +1,6 @@
-package com.example.appescritorio;
+package com.example.appescritorio.com.example.appescritorio;
 
+import com.example.appescritorio.com.example.appescritorio.MainApplication;
 import javafx.application.Application;
 
 public class Launcher {

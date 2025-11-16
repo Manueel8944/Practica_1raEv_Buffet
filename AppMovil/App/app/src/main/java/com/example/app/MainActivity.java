@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
         botonM4.setOnClickListener(v -> verMesaEscogida(3,botonM4));
         botonM5.setOnClickListener(v -> verMesaEscogida(4,botonM5));
 
-        botonRefrescar.setOnClickListener(v -> colorMesas());
+        botonRefrescar.setOnClickListener(v -> colorMesas()); // Este boton sirve para cuando le des se refresquen el color de las mesas
     }
 
-    public void verMesaEscogida(int numMesa,Button botonCambiar) {
+    public void verMesaEscogida(int numMesa,Button botonCambiar) { // Es una funcion para saber que mesa estoy usando poniendo su posicion y el boton al que se refiere por hardcode (linea 62-66)
         ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
         Call<List<Mesa>> call = apiService.getMesa();
 
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     List<Mesa> mesas = response.body();
 
                     Mesa mesaElegida = mesas.get(numMesa);
-                    cambiarValorMesa(mesaElegida, numMesa+1, botonCambiar);
+                    cambiarValorMesa(mesaElegida, numMesa+1, botonCambiar); // En el idMesa le sumo uno ya que la podicion es 0 pero el id es 1, asi que va a ser +1
 
                 } else {
                     Toast.makeText(MainActivity.this, "Error al encontrar la mesa", Toast.LENGTH_SHORT).show();
@@ -94,20 +94,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void cambiarValorMesa(Mesa mesaElegida, int idMesa, Button botonCambiar){
-        if (mesaElegida.isEstadoMesa()){
+        if (mesaElegida.isEstadoMesa()){ // De la mesa elegida filtramos que si la mesa no esta pillada se sigue, y si no alerta y no hace nada
             mesaElegida.setEstadoMesa(false);
             ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
-            Call<Mesa> call = apiService.updateMesa(idMesa, mesaElegida);
+            Call<Mesa> call = apiService.updateMesa(idMesa, mesaElegida); // Actualizamos la mesa para ponerle el estadoMesa en false (que esta pillada)
 
             call.enqueue(new Callback<Mesa>() {
                 @Override
                 public void onResponse(Call<Mesa> call, Response<Mesa> response) {
                     if (response.isSuccessful()) {
 
-                        botonCambiar.setBackgroundColor(Color.parseColor("#EF4D4D"));
+                        botonCambiar.setBackgroundColor(Color.parseColor("#EF4D4D")); //Ponemos el boton correspondiente en rojo
 
-                        Intent intent = new Intent(MainActivity.this, CartaActivity.class);
-                        intent.putExtra("idMesa", idMesa);
+                        Intent intent = new Intent(MainActivity.this, CartaActivity.class); // Cambiamos de vista a la siguiente
+                        intent.putExtra("idMesa", idMesa); // Esto sirve para poder pasar un atributo a otra vista, lo uso para saber que mesa he elegido
                         startActivity(intent);
                         finish(); // importante para que se refresquen las paginas al volver a entrar
 
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void colorMesas(){
-        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class);
+        ApiService apiService = RetrofitClient.getRetrofitInstance().create(ApiService.class); // Listamos las mesas y las recorremos viendo el estado de la mesa, y dependiendo de cada uno un color u otro
         Call<List<Mesa>> call = apiService.getMesa();
 
         call.enqueue(new Callback<List<Mesa>>() {
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Mesa> mesas = response.body();
 
-                    int contador = 0;
+                    int contador = 0; // Este contador lo uso para saber la posicion de de los botones ya que es la misma que las mesas y el for of no tiene contador
                     for (Mesa m: mesas){
                         if (!m.isEstadoMesa()){
                             botonesArray.get(contador).setBackgroundColor(Color.parseColor("#EF4D4D"));
